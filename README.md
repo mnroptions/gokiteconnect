@@ -164,6 +164,23 @@ You can run the following after updating the API Keys in the examples:
 go run examples/connect/basic/connect.go
 ```
 
+### Postback Server Example
+
+For receiving real-time order updates via postbacks (webhooks), check out the [postback example](examples/postback):
+
+```bash
+cd examples/postback
+go run main.go
+```
+
+This example demonstrates how to:
+- Set up a web server to receive postback notifications from Kite Connect
+- Log and parse order updates in real-time
+- Handle different types of postback data
+- Deploy as a single executable for production use
+
+**Note**: Postbacks only notify about orders placed through your specific Kite Connect app (API key/secret), not orders from Kite web/mobile or other apps.
+
 ## Development
 
 #### Fetch mock responses for testcases

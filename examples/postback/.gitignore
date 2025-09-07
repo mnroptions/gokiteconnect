@@ -1,0 +1,12 @@
+# Ignore build artifacts
+postback-server
+postback-server.exe
+postback-server-*
+
+# Ignore log files
+*.json
+*.log
+
+# Ignore temporary files
+*.tmp
+.DS_Store
