@@ -6,14 +6,46 @@ This example demonstrates how to create a web server to receive and log postback
 
 Postbacks (also known as webhooks) are HTTP POST requests that Kite Connect sends to your configured URL whenever there are order updates. This allows your application to receive real-time notifications about order status changes without having to continuously poll the API.
 
+### Important: Postback Scope
+
+**Postbacks only notify about orders placed through your specific Kite Connect app** (identified by your API key and secret). You will NOT receive postback notifications for:
+- Orders placed through Kite web platform
+- Orders placed through Kite mobile app  
+- Orders placed through other Kite Connect apps
+- Manual trades done outside your app
+
+This means postbacks are app-specific, not account-wide. If you need to track all account activity, you'll need to use the orders API to poll for updates.
+
 ### When are postbacks sent?
 
-Postbacks are sent for the following events:
+Postbacks are sent for the following events (for orders placed through your app only):
 - Order placement
 - Order modification
 - Order cancellation
 - Order execution (partial or complete)
 - Order rejection
+
+### Need to track ALL account activity?
+
+If you need to monitor all orders on the account (including those from Kite web/mobile), you have two options:
+
+1. **Polling approach**: Use the [orders API](https://kite.trade/docs/connect/v3/orders/#retrieving-orders) to periodically fetch all orders
+2. **Hybrid approach**: Combine postbacks (for real-time updates of your app's orders) with periodic polling (to catch other orders)
+
+Example polling implementation:
+```go
+// Poll for all orders every 30 seconds
+ticker := time.NewTicker(30 * time.Second)
+go func() {
+    for range ticker.C {
+        orders, err := kc.GetOrders()
+        if err == nil {
+            // Process all orders and compare with last known state
+            checkForNewOrders(orders)
+        }
+    }
+}()
+```
 
 ## Quick Start
 

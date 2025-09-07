@@ -179,6 +179,8 @@ This example demonstrates how to:
 - Handle different types of postback data
 - Deploy as a single executable for production use
 
+**Note**: Postbacks only notify about orders placed through your specific Kite Connect app (API key/secret), not orders from Kite web/mobile or other apps.
+
 ## Development
 
 #### Fetch mock responses for testcases

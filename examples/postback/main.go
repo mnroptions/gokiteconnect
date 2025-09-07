@@ -68,6 +68,9 @@ func NewPostbackServer(port string, logFile string) (*PostbackServer, error) {
 }
 
 // handlePostback processes incoming postback requests
+// Note: Postbacks only contain order updates for orders placed through 
+// this specific Kite Connect app (API key/secret), not orders from 
+// Kite web/mobile or other Connect apps.
 func (ps *PostbackServer) handlePostback(w http.ResponseWriter, r *http.Request) {
 	// Only accept POST requests
 	if r.Method != http.MethodPost {
@@ -179,6 +182,11 @@ func (ps *PostbackServer) handleRoot(w http.ResponseWriter, r *http.Request) {
 <body>
     <h1 class="header">Kite Connect Postback Server</h1>
     <p>This server is ready to receive postback notifications from Zerodha Kite Connect API.</p>
+    
+    <div style="background-color: #e8f4f8; padding: 15px; margin: 15px 0; border-left: 4px solid #2196F3; border-radius: 4px;">
+        <strong>Important:</strong> Postbacks only notify about orders placed through your specific Kite Connect app (API key/secret). 
+        You will NOT receive notifications for orders placed through Kite web, mobile app, or other Connect apps.
+    </div>
     
     <h2>Available Endpoints:</h2>
     <div class="endpoint">
